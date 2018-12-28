@@ -1,0 +1,7 @@
+{
+  "realm" : "voyager-testing",
+  "auth-server-url" : "http://localhost:8080/auth",
+  "ssl-required" : "external",
+  "resource" : "voyager-testing",
+  "public-client" : true
+}

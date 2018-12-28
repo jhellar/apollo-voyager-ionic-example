@@ -1,0 +1,22 @@
+{
+  "version": 1,
+  "clusterName": "http://localhost:8443",
+  "namespace": "myproject",
+  "clientId": "sync-ionic-example",
+  "services": [
+    {
+      "id": "keycloak",
+      "name": "keycloak",
+      "type": "keycloak",
+      "url": "http://localhost:8080/auth",
+      "config": {
+        "auth-server-url": "http://localhost:8080/auth",
+        "realm": "voyager-testing",
+        "resource": "voyager-testing",
+        "ssl-required": "external",
+        "url": "http://localhost:8080/auth"
+      }
+    }
+  ]
+}
+

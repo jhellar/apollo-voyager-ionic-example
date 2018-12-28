@@ -25,6 +25,7 @@ const routes: Routes = [
   { path: 'home', loadChildren: loadHomePageModule },
   { path: 'new-item', loadChildren: loadNewItemPageModule },
   { path: 'update-item', loadChildren: loadUpdateItemPageModule },
+  { path: 'protected', loadChildren: './pages/protected/protected.module#ProtectedPageModule' }
 ];
 @NgModule({
   imports: [

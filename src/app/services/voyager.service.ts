@@ -44,7 +44,8 @@ export class VoyagerService {
     this._apolloClient = await createClient({
       httpUrl: uri,
       wsUrl: wsUri,
-      offlineQueueListener: numberOfOperationsProvider
+      offlineQueueListener: numberOfOperationsProvider,
+      requiresAuthorization: true
     });
   }
 
