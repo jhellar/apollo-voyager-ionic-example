@@ -1,5 +1,6 @@
 import { createClient, VoyagerClient, OfflineQueueListener } from '@aerogear/datasync-js';
 import { Injectable } from '@angular/core';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -11,8 +12,10 @@ export class VoyagerService {
 
   private _apolloClient: VoyagerClient;
   private listener: OfflineQueueListener;
+  private authService: AuthService;
 
-  constructor() {
+  constructor(authService: AuthService) {
+    this.authService = authService;
   }
 
   set queueListener(listener: OfflineQueueListener) {
@@ -41,12 +44,30 @@ export class VoyagerService {
     };
     const uri = 'http://localhost:4000/graphql';
     const wsUri = 'ws://localhost:4000/graphql';
-    this._apolloClient = await createClient({
-      httpUrl: uri,
-      wsUrl: wsUri,
-      offlineQueueListener: numberOfOperationsProvider,
-      requiresAuthorization: true
-    });
+
+    return await this.authService.init()
+      .then(async () => {
+        console.log('successful init & authentication');
+        return this._apolloClient = await createClient({
+          httpUrl: uri,
+          wsUrl: wsUri,
+          offlineQueueListener: numberOfOperationsProvider,
+          headerProvider: {
+            getHeaders: () => {
+              if (this.authService.getBearerToken()) {
+                return {
+                  Authorization: 'Bearer ' + this.authService.getBearerToken()
+                };
+              } else {
+                return {};
+              }
+            }
+          }
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
 }
